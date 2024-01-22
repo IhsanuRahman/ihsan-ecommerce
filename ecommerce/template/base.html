@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{%block 'title'%}{%endblock%}</title>
+    <style>
+        .errors,
+        .errorlist {
+            color: red;
+        }
+        #footer {
+   position:fixed;
+   left:0px;
+   bottom:0px;
+   width:100%;
+}
+
+/* IE 6 */
+* html #footer {
+   position:absolute;
+   top:expression((0-(footer.offsetHeight)+(document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight)+(ignoreMe = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop))+'px');
+}
+    </style>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {%block 'head'%}
+    {%endblock%}
+
+</head>
+
+<body class="h-100">
+    
+    {%block 'body'%}
+    {%endblock%}
+</body>
+{% bootstrap_javascript %}
+{%block 'script'%}
+{%endblock%}
+
+</html>
+{%block 'extra'%}
+{%endblock%}

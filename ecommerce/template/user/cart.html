@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- molla/cart.html  22 Nov 2019 09:55:06 GMT -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Cart</title>
+    <meta name="keywords" content="HTML5 Template">
+    <meta name="description" content="Molla - Bootstrap eCommerce Template">
+    <meta name="author" content="p-themes">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png">
+    <link rel="manifest" href="assets/images/icons/site.html">
+    <link rel="mask-icon" href="assets/images/icons/safari-pinned-tab.svg" color="#666666">
+    <link rel="shortcut icon" href="assets/images/icons/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="Molla">
+    <meta name="application-name" content="Molla">
+    <meta name="msapplication-TileColor" content="#cc9966">
+    <meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Plugins CSS File -->{% load bootstrap5 %}
+    {% bootstrap_css %}
+    {%load static%}
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="{%static 'cart/assets/css/style.css'%}">
+    <link rel="stylesheet" href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" />
+
+</head>
+
+<body>
+
+    <div class="page-wrapper">
+        {%include 'user/header.html'%}
+        
+        <main class="main mt-3">
+            <!-- End .page-header -->
+
+
+            <div class="page-content">
+                <div class="cart">
+                    <div class="container">
+                        <div class="row">{%if products%}
+                            <div class="col-lg-9">
+                                <table class="table table-cart table-mobile">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Price</th>
+                                            <th>Quantity</th>
+                                            <th>Total</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+
+                                        {% load user_templates_filter %}
+                                        {%for product in products%}
+                                        <tr>
+                                            <td class="product-col">
+                                                <div class="product">
+                                                    <figure class="product-media">
+                                                        <a href="#">
+                                                            <img src="/media/{{product.product.image}}" alt="">
+                                                        </a>
+                                                    </figure>
+
+                                                    <h3 class="product-title">
+                                                        <a href="#">{{product.product.title}}</a>
+                                                    </h3><!-- End .product-title -->
+                                                </div><!-- End .product -->
+                                            </td>
+                                            <td class="price-col">₹{{product.product.price}}</td>
+                                            <td class="quantity-col">
+                                                <div class="cart-product-quantity">
+                                                    <form method="post" action="/user/cart/{{product.id}}/edit"
+                                                        class="d-flex " style="width: 120px;" id="quantity-form"
+                                                        onchange="saveQuantity('{{product.id}}')">
+                                                        {%csrf_token%}
+                                                        <input type="number" class="form-control p-3"
+                                                            value="{{product.quantity}}" min="1" step="1"
+                                                            data-decimals="0" required name="quantity">
+                                                            
+
+                                                    </form>
+                                                </div><!-- End .cart-product-quantity -->
+                                            </td>
+                                            <td class="total-col">₹{% multiply product.quantity product.product.get_offered_price  %}
+                                            </td>
+                                            <td class="remove-col"><button class="btn-remove"
+                                                    href="/user/cart/{{product.id}}/delete"
+                                                    onclick="deleteCart('{{product.id}}')"><i
+                                                        class="icon-close"></i></button></td>
+                                            </tr>
+
+                                        {%endfor%}
+                                    </tbody>
+                                </table><!-- End .table table-wishlist -->
+
+                                <div class="cart-bottom">
+
+
+
+                                </div><!-- End .cart-bottom -->
+                            </div><!-- End .col-lg-9 -->
+                            <aside class="col-lg-3">
+                                <div class="summary summary-cart">
+                                    <h3 class="summary-title">Cart Total</h3><!-- End .summary-title -->
+                                    <form method="post" id="checkout-form">
+                                        {%csrf_token%}
+                                        <table class="table table-summary">
+                                            <tbody>
+                                                <tr >
+                                                    
+                                                </tr>
+                                                    {%for product in products%}
+                                                <tr class="summary-subtotal">
+                                                    <td class="text-muted">{{product.product.title}}</td>
+                                                    <td class="text-muted"> ₹{{product.product.get_offered_price}}</td>
+                                                </tr>
+                                                    {%endfor%}
+                                                <tr class="summary-subtotal">
+                                                    <td>Subtotal:</td>
+                                                    <td>₹{{total_price}}</td>
+                                                </tr><!-- End .summary-subtotal -->
+                                                <tr class="summary-shipping">
+                                                    <td>Payment:</td>
+                                                    <td>&nbsp;</td>
+                                                </tr>
+                                                <tr class="summary-shipping-row" id=payment-errors style="color: red;">
+                                                </tr>
+                                                <tr class="summary-shipping-row">
+                                                    <td>
+                                                        <div class="custom-control custom-radio">
+                                                            <input type="radio" id="free-shipping" name="shipping"
+                                                                class="custom-control-input" value="cash-on-delivery">
+                                                            <label class="custom-control-label" for="free-shipping">Cash
+                                                                on delivery</label>
+                                                        </div><!-- End .custom-control -->
+                                                    </td>
+                                                    <td></td>
+                                                </tr><!-- End .summary-shipping-row -->
+
+                                                <tr class="summary-shipping-row">
+                                                    <td>
+                                                        <div class="custom-control custom-radio">
+                                                            <input type="radio" value="pay-online"
+                                                                id="standart-shipping" name="shipping"
+                                                                class="custom-control-input">
+                                                            <label class="custom-control-label"
+                                                                for="standart-shipping">Pay online
+                                                            </label>
+                                                        </div><!-- End .custom-control -->
+                                                    </td>
+                                                    <td></td>
+                                                </tr><!-- End .summary-shipping-row -->
+                                                <tr class="summary-shipping-row">
+                                                    <td>
+                                                        <div class="custom-control custom-radio">
+                                                            <input type="radio" value="wallet"
+                                                                id="wallet-shipping" name="shipping"
+                                                                class="custom-control-input">
+                                                            <label class="custom-control-label"
+                                                                for="wallet-shipping">Wallet
+                                                            </label>
+                                                        </div><!-- End .custom-control -->
+                                                    </td>
+                                                    <td></td>
+                                                </tr><!-- End .summary-shipping-row -->
+                                                
+                                                <tr class="summary-shipping">
+                                                    <td>Address:</td>
+                                                    <td>&nbsp;</td>
+
+                                                </tr>
+                                                <tr class="address-shipping-row" id=address-errors style="color: red;">
+                                                </tr>
+                                                {%for adrs in address%}
+                                                <tr class="address-shipping-row">
+                                                    <td>
+                                                        <div class="custom-control custom-radio d-flex">
+
+
+                                                            <input type="radio" id="{{adrs.id}}" name="address"
+                                                                value="{{adrs.id}}" class="custom-control-input">
+                                                            <label class="custom-control-label" for="{{adrs.id}}">
+                                                                <ul class="ms-3">
+                                                                    <li>{{adrs.holder_name}}</li>
+                                                                    <li>{{adrs.address}}</li>
+                                                                    <li>{{adrs.phone_number}}</li>
+                                                                </ul>
+                                                            </label>
+                                                        </div><!-- End .custom-control -->
+                                                    </td>
+                                                    <td></td>
+                                                </tr><!-- End .summary-shipping-row -->
+                                                {%endfor%}
+
+
+
+                                                <tr class="summary-shipping-estimate">
+                                                    <td><a href="/user/cart/address/add" class="btn  btn-dark">add
+                                                            address</a></td>
+
+                                                </tr><!-- End .summary-shipping-estimate -->
+
+                                                <tr class="summary-total">
+                                                    <td>Total:</td>
+                                                    <td>₹{{total_price}}</td>
+                                                </tr><!-- End .summary-total -->
+                                            </tbody>
+                                        </table><!-- End .table table-summary -->
+                                        <label for="coupon">have coupon?</label>
+                                                    <input type="text" name="coupon" class=" form-control" class="form-control" style="border-radius: 8px;border: 2px solid #D9D9D9;" placeholder="coupon code">
+                                        <!-- <button id="rzp-button1" type="button"
+                                            class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO
+                                            CHECKOUT</button> -->
+                                            
+                                            <button onclick="checkout()" type="button"
+                                            class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO
+                                            CHECKOUT</button>
+                                    </form>
+                                </div><!-- End .summary -->
+
+
+                            </aside>
+                            {%else%}
+                            <h3 class="text-muted text-center ">cart is empty</h3>
+                            {%endif%} <!-- End .col-lg-3 -->
+                        </div><!-- End .row -->
+                    </div><!-- End .container -->
+                </div><!-- End .cart -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+
+
+    </div><!-- End .page-wrapper -->
+
+    <!-- Mobile Menu -->
+
+
+
+    <!-- Sign in / Register Modal -->
+
+
+    <!-- Plugins JS File -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="assets/js/jquery.min.js"></script>
+    {% bootstrap_javascript %}
+    <script src="assets/js/jquery.hoverIntent.min.js"></script>
+    <script src="assets/js/jquery.waypoints.min.js"></script>
+    <script src="assets/js/superfish.min.js"></script>
+    <script src="assets/js/owl.carousel.min.js"></script>
+    <script src="assets/js/bootstrap-input-spinner.js"></script>
+
+    <!-- Main JS File -->
+    <script src="assets/js/main.js"></script>
+    <script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
+    <script src="{%static 'js/search.js'%}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        function checkout() {
+            formData = new FormData(document.getElementById('checkout-form'))
+            var data = {}
+            for (var pair of formData.entries()) {
+                data[pair[0]] = pair[1]
+            }
+
+            if (data['address'] != null && data['shipping'] != null) {
+                console.log('ok')
+                $.ajax({
+                    type: "POST",
+                    data: data, // changed
+                    success: function (data) {
+                        document.open();
+                        document.write(data);
+                        document.close();
+                        // show response from the php script.
+                    }
+                });
+            } else {
+                if (data['address'] == null) {
+                    document.getElementById('address-errors').innerHTML = '<li>this field is required</li>'
+
+                } else document.getElementById('address-errors').innerHTML = ''
+
+                if (data['shipping'] == null) {
+                    document.getElementById('payment-errors').innerHTML = '<li>this field is required</li>'
+
+                } else document.getElementById('payment-errors').innerHTML = ''
+            }
+        }
+        function saveQuantity(id) {
+            formData = new FormData(document.getElementById('quantity-form'))
+            var data = {}
+            for (var pair of formData.entries()) {
+                data[pair[0]] = pair[1]
+            }
+            $.ajax({
+                type: "POST",
+                url: "/user/cart/" + id + "/edit",
+                data: data, // changed
+                success: function (data) {
+                    document.open();
+                    document.write(data);
+                    document.close();
+                    // show response from the php script.
+                }
+            });
+        }
+        function deleteCart(id) {
+            url = "/user/cart/" + id + "/delete"
+            $.ajax({
+                url: url,// changed
+                success: function (data) {
+                    document.open();
+                    document.write(data);
+                    document.close();
+                    // show response from the php script.
+                }
+            });
+        }
+    </script>
+<script>
+    var options = {
+        "key": "{{razorpay_key}}", // Enter the Key ID generated from the Dashboard
+        "amount": "{{payment.amount}}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "currency": "INR",
+        "name": "Ihsan",
+        "description": "Test Transaction",
+        "image": "https://example.com/your_logo",
+        "order_id": "{{payment.id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "handler": function (response){
+            
+            $.ajax({
+                type: "POST",
+                url: "/user/orders/payment",
+                data: {
+                    'csrfmiddlewaretoken':'{{csrf_token}}',
+                    'razorpay_payment_id':response.razorpay_payment_id,
+                    'razorpay_order_id':response.razorpay_order_id,
+                    'razorpay_signature':response.razorpay_signature
+                }, // changed
+                success: function (data) {
+                    document.open();
+                    document.write(data);
+                    document.close();
+                    // show response from the php script.
+                }
+            });
+        },
+        
+        "theme": {
+            "color": "#3399cc"
+        }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.on('payment.failed', function (response){
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
+    });
+    var pay= '{{pay}}'
+    if (pay=='True'){
+        rzp1.open();
+        e.preventDefault();
+    }
+    </script>
+</body>
+
+
+<!-- molla/cart.html  22 Nov 2019 09:55:06 GMT -->
+
+</html>
+{%include 'user/side-draw.html'%}

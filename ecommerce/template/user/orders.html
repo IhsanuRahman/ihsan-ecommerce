@@ -1,0 +1,127 @@
+{%extends 'base.html' %}
+{%block 'title' %}
+My address
+{%endblock%}
+{%block 'head'%}
+{%load static%}
+
+
+<link rel="stylesheet" href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" />
+<style>
+
+</style>
+{%endblock%}
+{%block 'body'%}
+
+{%include 'user/header.html'%}
+<div class="d-flex justify-content-between m-5">
+  <h3>orders</h3>
+</div>
+<div class="list-group " style="min-height: 50%;">
+  {%if orders%}
+  {%for order in orders%}
+  {%for item in order.order_items.all%}
+  <div class="card ms-5 me-5 mb-2 col-11" style="height: 300px;" onclick="window.location='/user/order/{{item.id}}'">
+    <div class="row g-0 col-12">
+      <div class="col-2">
+        <img src="/media/{{item.product.image}}" class="img-fluid rounded-start" alt="...">
+      </div>
+      <div class="col-10 ">
+        <div class="card-body col-12">
+
+
+          {%if item.status != '-1' %}
+              <a href="/user/order/{{item.id}}/cancel"  class="btn btn-danger d-block ms-auto" style="width: 150px;" >cancel order</a>
+              {%endif%}
+              <h5 class="card-title">{{item.product.title}}</h5>
+              <p class="card-text"><b>price:</b>₹{{item.product.price}}</p>
+              <p class="card-text"><b>quantity:</b>{{item.quantity}}</p>
+              {%load user_templates_filter%}
+              <p class="card-text"><b>total price:</b>₹{{item.total_price}}</p>
+              <p class="card-text"><b>order on:</b>{{order.ordered_datetime}}</p>
+              <p class="card-text"><b>receive on:</b>{{item.receive_datetime}}</p>
+              <div class="d-flex justify-content-between align-items-center " style="width: 500px;height: 4px;background-image: linear-gradient(to right, green {%if item.status == '-1'%}100%{%else%} {% getprogress item.status %}% {%endif%} ,gray 1%);">
+                {%if item.status == '-1' %}
+                {%include 'user/ticked.html' with title='ordered'%}
+                {%include 'user/ticked.html' with title='cancelled'%}
+                {%else%}
+                {%if status_choise.1.0 <= item.status%}
+                {%include 'user/ticked.html' with title='ordered'%}
+                {%else%}
+                {%include 'user/unticked.html' with title='ordered'%}
+                {%endif%}
+                {%if status_choise.2.0 <= item.status%}
+                {%include 'user/ticked.html' with title='packed'%}
+                {%else%}
+                {%include 'user/unticked.html' with title='packed'%}
+                {%endif%}
+                {%if status_choise.3.0 <= item.status%}
+                {%include 'user/ticked.html' with title='shipped'%}
+                {%else%}
+                {%include 'user/unticked.html' with title='shipped'%}
+                {%endif%}
+                {%if status_choise.4.0 <= item.status%}
+                {%include 'user/ticked.html' with title='out for delivery'%}
+                {%else%}
+                {%include 'user/unticked.html' with title='out for delivery'%}
+                {%endif%}
+                {%if status_choise.5.0 <= item.status%}
+                {%include 'user/ticked.html' with title='delivered'%}
+                {%else%}
+                {%include 'user/unticked.html' with title='delivered'%}
+                {%endif%}
+                {%endif%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{%endfor%}
+{%endfor%}
+{%else%}
+<h3 class="text-muted text-center ">no orders</h3>
+{%endif%}
+</div>
+<div class="container" style="height: 100px;">
+  <footer class="py-3 my-4">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      <li class="nav-item"><a href="/" class="nav-link px-2 text-muted">Home</a></li>
+      <li class="nav-item"><a href="/user/products" class="nav-link px-2 text-muted">All Products</a></li>
+      
+      <li class="nav-item"><a href="mailto://ihsanofficial.webservice@gmail.com" class="nav-link px-2 text-muted">FAQs</a></li>
+      
+    </ul>
+    <p class="text-center text-muted">&copy; 2024 Ihsan, Inc</p>
+  </footer>
+</div>
+
+{%endblock%}
+{%block 'script'%}
+<script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
+<script src="{%static 'js/search.js'%}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+  var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+
+  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+
+    return new bootstrap.Tooltip(tooltipTriggerEl, { placement: 'bottom', trigger: 'manual' }).show()
+  })
+</script>
+<script>
+  function cancelOrder(id) {
+    $.ajax({
+      url: "/user/order/" + id + "/cancel",
+      success: function (data) {
+        document.open();
+        document.write(data);
+        document.close();
+        // show response from the php script.
+      }
+    });
+  }
+</script>
+{%endblock%}
+{%block 'extra'%}
+{%include 'user/side-draw.html'%}
+{%endblock%}

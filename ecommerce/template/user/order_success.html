@@ -1,0 +1,14 @@
+{%extends 'base.html' %}
+{%block 'title'%}success{%endblock%}
+{%block 'body'%}
+    <section class="w-100 h-100 d-flex flex-column justify-content-center align-items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="150" height="150" viewBox="0 0 48 48" style="background-color: #fff;" >
+            <path fill="#4caf50"  d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path><path fill="#ccff90" d="M34.602,14.602L21,28.199l-5.602-5.598l-2.797,2.797L21,33.801l16.398-16.402L34.602,14.602z"></path>
+        </svg>
+        <h4>order success</h4>
+        <p class="m-4">your order has been placed and thankyou for the order</p>
+        <div class=" d-flex justify-content-between " style="width:250px">
+            <a href="/" class="btn btn-outline-primary" style="width: 120px;">home</a> <a href="/user/orders" class="btn btn-outline-success" style="width: 120px;">orders</a>
+        </div>
+    </section>
+{%endblock%}

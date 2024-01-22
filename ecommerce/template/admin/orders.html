@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin</title>
+  {%load static%}
+  <link rel="stylesheet" href="{%static 'admin/assets/css/styles.min.css'%}" />
+</head>
+
+<body>
+  <!--  Body Wrapper -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+    <!-- Sidebar Start -->
+    <aside class="left-sidebar">
+      <!-- Sidebar scroll-->
+      <div>
+        <div class="brand-logo d-flex align-items-center justify-content-between">
+          <a href="/admin" class="text-nowrap logo-img">
+            <h1 class="ms-3">Ihsan</h1>
+          </a>
+          <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+            <i class="ti ti-x fs-8"></i>
+          </div>
+        </div>
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+          <ul id="sidebarnav">
+            <li class="nav-small-cap">
+              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+              <span class="hide-menu">Home</span>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/admin/" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">Sales</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="/admin/products" aria-expanded="false">
+                  <span>
+                    <i class="ti ti-layout-dashboard"></i>
+                  </span>
+                  <span class="hide-menu">Products</span>
+                </a>
+              </li>
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="/admin/users" aria-expanded="false">
+                  <span>
+                    <i class="ti ti-layout-dashboard"></i>
+                  </span>
+                  <span class="hide-menu">Users</span>
+                </a>
+              </li>
+              <li class="sidebar-item ">
+                <a class="sidebar-link " href="/admin/categories" aria-expanded="false">
+                  <span>
+                    <i class="ti ti-layout-dashboard"></i>
+                  </span>
+                  <span class="hide-menu ">Category</span>
+                </a>
+              </li>
+              <li class="sidebar-item ">
+                <a class="sidebar-link " href="/admin/sub-categories" aria-expanded="false">
+                  <span>
+                    <i class="ti ti-layout-dashboard"></i>
+                  </span>
+                  <span class="hide-menu ">Sub Category</span>
+                </a>
+              </li>
+              <li class="sidebar-item ">
+                <a class="sidebar-link active" href="/admin/orders" aria-expanded="false">
+                  <span>
+                    <i class="ti ti-layout-dashboard"></i>
+                  </span>
+                  <span class="hide-menu ">Orders</span>
+                </a>
+              </li>
+              <li class="sidebar-item ">
+                <a class="sidebar-link " href="/admin/coupons" aria-expanded="false">
+                  <span>
+                    <i class="ti ti-layout-dashboard"></i>
+                  </span>
+                  <span class="hide-menu ">Coupons</span>
+                </a>
+              </li>
+            <li class="nav-small-cap">
+              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+              <span class="hide-menu">AUTH</span>
+            </li>
+            
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/admin/logout" aria-expanded="false">
+                <span>
+                  <i class="ti ti-user-minus"></i>
+                </span>
+                <span class="hide-menu">logout</span>
+              </a>
+            </li>
+            
+          </ul>
+          
+        </nav>
+        <!-- End Sidebar navigation -->
+      </div>
+      <!-- End Sidebar scroll-->
+    </aside>
+    <!--  Sidebar End -->
+    <!--  Main wrapper -->
+    <div class="body-wrapper">
+      <!--  Header Start -->
+      <header class="app-header">
+        <nav class="navbar navbar-expand-lg navbar-light">
+          <ul class="navbar-nav">
+            <li class="nav-item d-block d-xl-none">
+              <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
+                <i class="ti ti-menu-2"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-icon-hover" href="javascript:void(0)">
+                <i class="ti ti-bell-ringing"></i>
+                <div class="notification bg-primary rounded-circle"></div>
+              </a>
+            </li>
+          </ul>
+          <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+            <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+              
+              <li class="nav-item dropdown">
+                
+                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
+                  <div class="message-body">
+                    <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                      <i class="ti ti-user fs-6"></i>
+                      <p class="mb-0 fs-3">My Profile</p>
+                    </a>
+                    <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                      <i class="ti ti-mail fs-6"></i>
+                      <p class="mb-0 fs-3">My Account</p>
+                    </a>
+                    <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                      <i class="ti ti-list-check fs-6"></i>
+                      <p class="mb-0 fs-3">My Task</p>
+                    </a>
+                    <a href="./authentication-login.html" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+      <!--  Header End -->
+
+      <div class="container-fluid">
+        {% if messages %}
+
+    {% for message in messages %}<div class="messages alert alert-{{message.tags}} alert-dismissible fade show">
+        <span{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}, <button type="button"
+                class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></span>
+    </div> {% endfor %}
+
+    {% endif %}
+        <div class="row">
+          
+          <div class="col-lg-12 d-flex align-items-stretch">
+            <div class="card w-100">
+              <div class="card-body p-4">
+                <div class="d-flex">
+                <h5 class="card-title fw-semibold mb-4">orders</h5>
+                </div>
+                <div class="table-responsive" style="height: 600px;overflow-y: scroll;">
+                  <table class="table text-nowrap mb-0 align-middle">
+                    <thead class="text-dark fs-4">
+                      <tr>
+                        <th class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0">Id</h6>
+                        </th>
+                        <th class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0">ordered on</h6>
+                        </th>
+                        <th class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0">user</h6>
+                        </th>
+                        
+                        <th class="border-bottom-0">
+                            <h6 class="fw-semibold mb-0">total purchase</h6>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {%for order in orders%}
+                      <tr onclick="window.location='/admin/order/{{order.id}}'">
+                        
+                        <td class="border-bottom-0"><h6 class="fw-semibold mb-0">{{order.id}}</h6></td>
+                        <td class="border-bottom-0">
+                        <h6 class="fw-semibold mb-1">{{order.ordered_datetime}}</h6>                        
+                    </td>
+                        <td class="border-bottom-0">
+                          <h6 class="fw-semibold mb-1">{{order.user.username}}</h6>                        
+                      </td>
+                      
+                    <td class="border-bottom-0">
+                        <h6 class="fw-semibold mb-1">{{order.total_price}}</h6>                        
+                    </td>
+                      </tr> 
+                      {%endfor%}
+                                            
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="{%static 'admin/assets/libs/jquery/dist/jquery.min.js'%}"></script>
+  <script src="{%static 'admin/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js'%}"></script>
+  <script src="{%static 'admin/assets/js/sidebarmenu.js'%}"></script>
+  <script src="{%static 'admin/assets/js/app.min.js'%}"></script>
+  <script src="{%static 'admin/assets/libs/apexcharts/dist/apexcharts.min.js'%}"></script>
+  <script src="{%static 'admin/assets/libs/simplebar/dist/simplebar.js'%}" ></script>
+ 
+  </body>
+
+</html>

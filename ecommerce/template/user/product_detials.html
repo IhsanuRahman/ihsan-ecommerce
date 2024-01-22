@@ -1,0 +1,594 @@
+{%extends 'base.html' %}
+{%block 'title' %}
+product
+{%endblock%}
+{%block 'head'%}
+{%load static%}
+<link rel="stylesheet" href="{%static 'ratingstyle.css'%}">
+<link rel="stylesheet" href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
+<style>
+  .icon-hover:hover {
+    border-color: #3b71ca !important;
+    background-color: white !important;
+    color: #3b71ca !important;
+  }
+
+  .icon-hover:hover i {
+    color: #3b71ca !important;
+  }
+
+  .fav-btn {
+    --fa-font-brands: normal 400 1em/1 "Font Awesome 6 Brands";
+    --fa-font-regular: normal 400 1em/1 "Font Awesome 6 Free";
+    --fa-font-solid: normal 900 1em/1 "Font Awesome 6 Free";
+    --mdb-red: #f44336;
+    --mdb-pink: #e91e63;
+    --mdb-purple: #9c27b0;
+    --mdb-indigo: #3f51b5;
+    --mdb-blue: #2196f3;
+    --mdb-cyan: #00bcd4;
+    --mdb-teal: #009688;
+    --mdb-green: #4caf50;
+    --mdb-yellow: #ffeb3b;
+    --mdb-orange: #ff9800;
+    --mdb-white: #fff;
+    --mdb-black: #000;
+    --mdb-gray: #757575;
+    --mdb-gray-dark: #4f4f4f;
+    --mdb-gray-50: #fbfbfb;
+    --mdb-gray-100: #f5f5f5;
+    --mdb-gray-200: #eeeeee;
+    --mdb-gray-300: #e0e0e0;
+    --mdb-gray-400: #bdbdbd;
+    --mdb-gray-500: #9e9e9e;
+    --mdb-gray-600: #757575;
+    --mdb-gray-700: #616161;
+    --mdb-gray-800: #4f4f4f;
+    --mdb-gray-900: #262626;
+    --mdb-primary: #3b71ca;
+    --mdb-secondary: #9fa6b2;
+    --mdb-success: #14a44d;
+    --mdb-danger: #dc4c64;
+    --mdb-warning: #e4a11b;
+    --mdb-info: #54b4d3;
+    --mdb-light: #fbfbfb;
+    --mdb-dark: #332d2d;
+    --mdb-primary-rgb: 59, 113, 202;
+    --mdb-secondary-rgb: 159, 166, 178;
+    --mdb-success-rgb: 20, 164, 77;
+    --mdb-danger-rgb: 220, 76, 100;
+    --mdb-warning-rgb: 228, 161, 27;
+    --mdb-info-rgb: 84, 180, 211;
+    --mdb-light-rgb: 251, 251, 251;
+    --mdb-dark-rgb: 51, 45, 45;
+    --mdb-primary-text-emphasis: #2f5aa2;
+    --mdb-secondary-text-emphasis: #404247;
+    --mdb-success-text-emphasis: #0c622e;
+    --mdb-info-text-emphasis: #3b7e94;
+    --mdb-warning-text-emphasis: #896110;
+    --mdb-danger-text-emphasis: #b03d50;
+    --mdb-light-text-emphasis: #616161;
+    --mdb-dark-text-emphasis: #eeeeee;
+    --mdb-primary-bg-subtle: #e2eaf7;
+    --mdb-secondary-bg-subtle: #f1f2f3;
+    --mdb-success-bg-subtle: #dcf1e4;
+    --mdb-info-bg-subtle: #e5f4f8;
+    --mdb-warning-bg-subtle: #fbf1dd;
+    --mdb-danger-bg-subtle: #fae4e8;
+    --mdb-light-bg-subtle: #f5f5f5;
+    --mdb-dark-bg-subtle: #262626;
+    --mdb-primary-border-subtle: #b1c6ea;
+    --mdb-secondary-border-subtle: #d9dbe0;
+    --mdb-success-border-subtle: #a1dbb8;
+    --mdb-info-border-subtle: #bbe1ed;
+    --mdb-warning-border-subtle: #f4d9a4;
+    --mdb-danger-border-subtle: #f1b7c1;
+    --mdb-light-border-subtle: #eeeeee;
+    --mdb-dark-border-subtle: #9e9e9e;
+    --mdb-white-rgb: 255, 255, 255;
+    --mdb-black-rgb: 0, 0, 0;
+    --mdb-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --mdb-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --mdb-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
+    --mdb-body-font-family: var(--mdb-font-roboto);
+    --mdb-body-font-size: 1rem;
+    --mdb-body-font-weight: 400;
+    --mdb-body-line-height: 1.6;
+    --mdb-body-color: #4f4f4f;
+    --mdb-body-color-rgb: 79, 79, 79;
+    --mdb-body-bg: #fff;
+    --mdb-body-bg-rgb: 255, 255, 255;
+    --mdb-emphasis-color: #000;
+    --mdb-emphasis-color-rgb: 0, 0, 0;
+    --mdb-secondary-color: rgba(79, 79, 79, 0.75);
+    --mdb-secondary-color-rgb: 79, 79, 79;
+    --mdb-secondary-bg: #eeeeee;
+    --mdb-secondary-bg-rgb: 238, 238, 238;
+    --mdb-tertiary-color: rgba(79, 79, 79, 0.5);
+    --mdb-tertiary-color-rgb: 79, 79, 79;
+    --mdb-tertiary-bg: #fbfbfb;
+    --mdb-tertiary-bg-rgb: 251, 251, 251;
+    --mdb-heading-color: inherit;
+    --mdb-link-color: #3b71ca;
+    --mdb-link-color-rgb: 59, 113, 202;
+    --mdb-link-hover-color: #386bc0;
+    --mdb-link-hover-color-rgb: 56, 107, 192;
+    --mdb-link-hover-decoration: none;
+    --mdb-code-color: #e91e63;
+    --mdb-highlight-color: #4f4f4f;
+    --mdb-highlight-bg: #fff9c4;
+    --mdb-border-width: 1px;
+    --mdb-border-style: solid;
+    --mdb-border-color: #e0e0e0;
+    --mdb-border-color-translucent: rgba(0, 0, 0, 0.175);
+    --mdb-border-radius: 0.25rem;
+    --mdb-border-radius-sm: 0.25rem;
+    --mdb-border-radius-lg: 0.5rem;
+    --mdb-border-radius-xl: 1rem;
+    --mdb-border-radius-xxl: 2rem;
+    --mdb-border-radius-2xl: var(--mdb-border-radius-xxl);
+    --mdb-border-radius-pill: 50rem;
+    --mdb-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    --mdb-box-shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    --mdb-box-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+    --mdb-box-shadow-inset: inset 0 1px 2px rgba(0, 0, 0, 0.075);
+    --mdb-focus-ring-width: 0.25rem;
+    --mdb-focus-ring-opacity: 0.25;
+    --mdb-focus-ring-color: rgba(59, 113, 202, 0.25);
+    --mdb-form-valid-color: #14a44d;
+    --mdb-form-valid-border-color: #14a44d;
+    --mdb-form-invalid-color: #dc4c64;
+    --mdb-form-invalid-border-color: #dc4c64;
+    --mdb-breakpoint-xs: 0;
+    --mdb-breakpoint-sm: 576px;
+    --mdb-breakpoint-md: 768px;
+    --mdb-breakpoint-lg: 992px;
+    --mdb-breakpoint-xl: 1200px;
+    --mdb-breakpoint-xxl: 1400px;
+    --mdb-font-roboto: "Roboto", sans-serif;
+    --mdb-bg-opacity: 1;
+    --mdb-text-hover-opacity: 0.8;
+    --mdb-surface-color: #4f4f4f;
+    --mdb-surface-color-rgb: 79, 79, 79;
+    --mdb-surface-bg: #fff;
+    --mdb-surface-inverted-color: #fff;
+    --mdb-surface-inverted-color-rgb: 255, 255, 255;
+    --mdb-surface-inverted-bg: #6d6d6d;
+    --mdb-divider-color: #f5f5f5;
+    --mdb-divider-blurry-color: hsl(0, 0%, 40%);
+    --mdb-highlight-bg-color: #eeeeee;
+    --mdb-scrollbar-rail-bg: #eeeeee;
+    --mdb-scrollbar-thumb-bg: #9e9e9e;
+    --mdb-picker-header-bg: #3b71ca;
+    --mdb-timepicker-clock-face-bg: var(--mdb-secondary-bg);
+    --mdb-sidenav-backdrop-opacity: 0.1;
+    --mdb-form-control-border-color: #bdbdbd;
+    --mdb-form-control-label-color: #757575;
+    --mdb-form-control-disabled-bg: #e0e0e0;
+    --mdb-box-shadow-color: #000;
+    --mdb-box-shadow-color-rgb: 0, 0, 0;
+    --mdb-stepper-mobile-bg: #fbfbfb;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    --mdb-gutter-y: 0;
+    --mdb-gutter-x: 3rem;
+    box-sizing: border-box;
+    --mdb-link-decoration: none;
+    text-decoration: var(--mdb-link-decoration);
+    --mdb-btn-padding-x: 1.5rem;
+    --mdb-btn-padding-y: 0.375rem;
+    --mdb-btn-font-family: ;
+    --mdb-btn-font-size: 0.75rem;
+    --mdb-btn-font-weight: 500;
+    --mdb-btn-line-height: 1.5;
+    --mdb-btn-disabled-opacity: 0.65;
+    display: inline-block;
+    font-family: var(--mdb-btn-font-family);
+    font-size: var(--mdb-btn-font-size);
+    font-weight: var(--mdb-btn-font-weight);
+    line-height: var(--mdb-btn-line-height);
+    color: var(--mdb-btn-color);
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    background-color: var(--mdb-btn-bg);
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    --mdb-btn-hover-border-color: #c9c9c9;
+    --mdb-btn-focus-shadow-rgb: 213, 213, 213;
+    --mdb-btn-active-border-color: #bcbcbc;
+    --mdb-btn-active-shadow: 0 8px 9px -4px rgba(var(--mdb-box-shadow-color-rgb), 0.15), 0 4px 18px 0 rgba(var(--mdb-box-shadow-color-rgb), 0.1);
+    --mdb-btn-disabled-color: #000;
+    --mdb-btn-disabled-bg: #fbfbfb;
+    --mdb-btn-disabled-border-color: #fbfbfb;
+    border: var(--mdb-border-width) var(--mdb-border-style) var(--mdb-border-color) !important;
+    --mdb-border-opacity: 1;
+    border-color: rgba(var(--mdb-secondary-rgb), var(--mdb-border-opacity)) !important;
+    padding-right: 1rem !important;
+    padding-left: 1rem !important;
+    padding-top: .5rem !important;
+    padding-bottom: .5rem !important;
+    --mdb-btn-padding-top: 0.625rem;
+    --mdb-btn-padding-bottom: 0.5rem;
+    --mdb-btn-border-width: 0;
+    --mdb-btn-border-color: none;
+    --mdb-btn-border-radius: 0.25rem;
+    --mdb-btn-hover-box-shadow: 0 8px 9px -4px rgba(var(--mdb-box-shadow-color-rgb), 0.15), 0 4px 18px 0 rgba(var(--mdb-box-shadow-color-rgb), 0.1);
+    --mdb-btn-focus-box-shadow: 0 8px 9px -4px rgba(var(--mdb-box-shadow-color-rgb), 0.15), 0 4px 18px 0 rgba(var(--mdb-box-shadow-color-rgb), 0.1);
+    --mdb-btn-active-box-shadow: 0 8px 9px -4px rgba(var(--mdb-box-shadow-color-rgb), 0.15), 0 4px 18px 0 rgba(var(--mdb-box-shadow-color-rgb), 0.1);
+    text-transform: uppercase;
+    vertical-align: bottom;
+    border-radius: var(--mdb-btn-border-radius);
+    box-shadow: var(--mdb-btn-box-shadow);
+    --mdb-btn-bg: #f5f5f5;
+    --mdb-btn-color: #616161;
+    --mdb-btn-box-shadow: 0 4px 9px -4px #f6f6f6;
+    --mdb-btn-hover-bg: #e9e9e9;
+    --mdb-btn-hover-color: #616161;
+    --mdb-btn-focus-bg: #f6f6f6;
+    --mdb-btn-focus-color: #616161;
+    --mdb-btn-active-bg: #dddddd;
+    --mdb-btn-active-color: #616161;
+    --mdb-btn-box-shadow-state: 0 8px 9px -4px rgba(238, 238, 238, 0.3), 0 4px 18px 0 rgba(238, 238, 238, 0.2);
+  }
+
+  .swiper {
+    width: 100%;
+    height: 100%;
+  }
+
+  .swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .swiper-slide .slider-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+
+
+  .swiper {
+    width: 100%;
+    height: 300px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .swiper-slide {
+    background-size: cover;
+    background-position: center;
+  }
+
+  .mySwiper2 {
+    height: 60%;
+    width: 80%;
+  }
+
+  .mySwiper {
+    height: 20%;
+    box-sizing: border-box;
+    padding: 10px 0;
+  }
+
+  .mySwiper .swiper-slide {
+    width: 25%;
+    height: 100%;
+    opacity: 0.4;
+  }
+
+  .mySwiper .swiper-slide-thumb-active {
+    opacity: 1;
+  }
+
+  .swiper-slide .slider-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+</style>
+{%endblock%}
+{%block 'body'%}
+
+{%include 'user/header.html'%}
+<section class="py-5">
+  <div class="container">
+    <div class="row gx-5 d-flex">
+      <aside class="col-lg-6">
+
+        <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <img src="/media/{{product.image}}" class="slider-img" />
+            </div>
+            {%for image in additional_image%}
+            <div class="swiper-slide">
+              <img src="/media/{{image.image}}" class="slider-img" />
+            </div>
+            {%endfor%}
+          </div>
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+        </div>
+        <div thumbsSlider="" class="swiper mySwiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <img src="/media/{{product.image}}" class="slider-img" />
+            </div>
+            {%for image in additional_image%}
+            <div class="swiper-slide">
+              <img src="/media/{{image.image}}" class="slider-img" />
+            </div>
+            {%endfor%}
+
+          </div>
+        </div>
+      </aside>
+      <main class="col-lg-6 ">
+        <div class="ps-lg-3">
+          <form method="post" action="{{product.id}}/add_to_cart">
+            <h4 class="title text-dark">
+              {{product.title}}
+            </h4>
+            <div class="d-flex flex-row my-3">
+
+              {%if product.quantity != 0%}
+              <span class="text-success ms-2">In stock</span>
+              {%else%}
+              <span class="text-danger ms-2">In stock</span>
+              {%endif%}
+            </div>
+
+            <div class="mb-3">
+              {%if product.offer != 0%}
+              {%load user_templates_filter%}
+              <span class="h5">₹{{product.get_offered_price}}</span>
+
+              <span class="text"><s>₹{{product.price}}</s></span>
+              <span class="text-muted">{{product.offer|add:product.category.offer}}% offer</span>
+              {%else%}
+              <span class="h5">₹{{product.price}}</span>
+              {%endif%}
+            </div>
+
+            <p>
+              {{product.description}}
+            </p>
+
+            <div class="row">
+              <dt class="col-3">Gender</dt>
+              <dd class="col-9">{{product.gender}}</dd>
+
+              <dt class="col-3">Category</dt>
+              <dd class="col-9">{{product.category.name}}</dd>
+
+
+              <dt class="col-3">Brand</dt>
+              <dd class="col-9">{{product.brand}}</dd>
+            </div>
+
+            <hr />
+
+            <div class="row mb-4">
+              <div class="col-md-4 col-6">
+                <label class="mb-2">Options</label>
+
+                <select name="option" class="form-select border border-secondary" style="height: 35px;" required>
+                  {%for option in options%}
+                  <option>{{option.name}}</option>
+                  {%endfor%}
+                </select>
+              </div>
+              <!-- col.// -->
+              <div class="col-md-4 col-6 mb-3">
+                <label class="mb-2 d-block">Quantity</label>
+                <div class="input-group mb-3" style="width: 170px;">
+                  <button class="btn btn-white border border-secondary px-3" type="button" id="button-addon1"
+                    data-quantity="minus" data-field="quantity" data-mdb-ripple-color="dark">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <input type="number" name="quantity"
+                    class="input-group-field form-control text-center border border-secondary" value="1" min="0"
+                    aria-label="Example text with button addon" aria-describedby="button-addon1" />
+                  <button class="btn btn-white border border-secondary px-3" type="button" id="button-addon2"
+                    data-quantity="plus" data-field="quantity" data-mdb-ripple-color="dark">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            {%csrf_token%}
+            <button type="submit" class="btn btn-primary shadow-0">
+              <i class="me-1 fa fa-shopping-basket"></i>Add to cart
+            </button>
+            <button type="button" id="fav-btn" class="btn btn-light border border-secondary py-2 icon-hover px-3 fav-btn" onclick="addToWishlist()">
+              <i class="me-1 fa fa-heart fa-lg fav-icon" >
+
+              </i> Save To Wishlist </button>
+          </form>
+        </div>
+      </main>
+    </div>
+  </div>
+</section>
+<!-- content -->
+
+<section class="bg-light border-top py-4">
+  <div class="container">
+    <div class="row gx-4">
+      <div class="col-lg-8 mb-4">
+        <div class="border rounded-2 px-3 py-2 bg-white">
+          <!-- Pills navs -->
+          <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
+            <li class="nav-item d-flex" role="presentation">
+              <a class="nav-link d-flex align-items-center justify-content-center w-100 active" id="ex1-tab-1"
+                data-mdb-toggle="pill" href="#ex1-pills-1" role="tab" aria-controls="ex1-pills-1"
+                aria-selected="true">additional information</a>
+            </li>
+
+          </ul>
+          <!-- Pills navs -->
+
+          <!-- Pills content -->
+          <div class="tab-content" id="ex1-content">
+            <div class="tab-pane fade show active" id="ex1-pills-1" role="tabpanel" aria-labelledby="ex1-tab-1">
+
+
+              <table class="table border mt-3 mb-2">
+                {%for info in additional_info%}
+                <tr>
+                  <th class="py-2">{{info.attribute}}:</th>
+                  <td class="py-2">{{info.value}}</td>
+                </tr>
+                {%endfor%}
+
+              </table>
+            </div>
+
+          </div>
+          <!-- Pills content -->
+        </div>
+        <div>
+
+        </div>
+        <div class="container">
+
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="px-0 border rounded-2 shadow-0">
+          <div class="card">
+            <div class="card-body" style="overflow-y: scroll;max-height: 500px;">
+              <h5 class="card-title">Similar items</h5>
+              {%for sp in similar_products%}
+              <div class="d-flex mb-3">
+                <a href="#" class="me-3">
+                  <img width="96px" src="/media/{{sp.image}}" style="min-width: 96px; height: 96px;"
+                    class="img-md img-thumbnail" />
+                </a>
+                <div class="info">
+                  <a href="/user/product/{{sp.id}}" class="nav-link mb-1">
+                    {{sp.title}}
+                  </a>
+                  <strong class="text-dark"> ₹{{sp.price}}</strong>
+                </div>
+              </div>
+              {%endfor%}
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+<div class="container" style="height: 100px;">
+  <footer class="py-3 my-4">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      <li class="nav-item"><a href="/" class="nav-link px-2 text-muted">Home</a></li>
+      <li class="nav-item"><a href="/user/products" class="nav-link px-2 text-muted">All Products</a></li>
+      
+      <li class="nav-item"><a href="mailto://ihsanofficial.webservice@gmail.com" class="nav-link px-2 text-muted">FAQs</a></li>
+      
+    </ul>
+    <p class="text-center text-muted">&copy; 2024 Ihsan, Inc</p>
+  </footer>
+</div>
+{%endblock%}
+{%block 'script'%}
+<script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+  integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
+<script src="{%static 'js/search.js'%}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+  var swiper = new Swiper(".mySwiper", {
+    loop: true,
+    spaceBetween: 10,
+    slidesPerView: 4,
+    freeMode: true,
+    watchSlidesProgress: true,
+  });
+  var swiper2 = new Swiper(".mySwiper2", {
+    loop: true,
+    spaceBetween: 10,
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    thumbs: {
+      swiper: swiper,
+    },
+  });
+</script>
+<script type="text/javascript">
+  jQuery(document).ready(function () {
+    // This button will increment the value
+    $('[data-quantity="plus"]').click(function (e) {
+      // Stop acting like a button
+      e.preventDefault();
+      // Get the field name
+      fieldName = $(this).attr('data-field');
+      // Get its current value
+      var currentVal = parseInt($('input[name=' + fieldName + ']').val());
+      // If is not undefined
+      if (!isNaN(currentVal)) {
+        // Increment
+        $('input[name=' + fieldName + ']').val(currentVal + 1);
+      } else {
+        // Otherwise put a 0 there
+        $('input[name=' + fieldName + ']').val(0);
+      }
+    });
+    // This button will decrement the value till 0
+    $('[data-quantity="minus"]').click(function (e) {
+      // Stop acting like a button
+      e.preventDefault();
+      // Get the field name
+      fieldName = $(this).attr('data-field');
+      // Get its current value
+      var currentVal = parseInt($('input[name=' + fieldName + ']').val());
+      // If it isn't undefined or its greater than 0
+      if (!isNaN(currentVal) && currentVal > 1) {
+        // Decrement one
+        $('input[name=' + fieldName + ']').val(currentVal - 1);
+      } else {
+        // Otherwise put a 0 there
+        $('input[name=' + fieldName + ']').val(1);
+      }
+    }); 
+  });
+function addToWishlist() {
+  $.ajax({
+        type: "POST",
+        url: "/user/wishlist/add",
+        data: { 'csrfmiddlewaretoken': '{{csrf_token}}', 'id': '{{product.id}}' }, // changed
+        success: function (data) {
+          document.open();
+          document.write(data);
+          document.close();
+          // show response from the php script.
+        }
+      })
+    
+}
+
+
+
+</script>
+{%endblock%}
+{%block 'extra'%}
+{%include 'user/side-draw.html'%}
+{%endblock%}

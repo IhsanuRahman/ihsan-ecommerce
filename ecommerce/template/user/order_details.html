@@ -1,0 +1,313 @@
+{%extends 'base.html' %}
+{%block 'title' %}
+product
+{%endblock%}
+{%block 'head'%}
+{%load static%}
+<link rel="stylesheet" href="{%static 'ratingstyle.css'%}">
+<link rel="stylesheet" href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+<style>
+  .swiper {
+    width: 100%;
+    height: 100%;
+  }
+  .swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .swiper-slide .slider-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+ 
+
+  .swiper {
+    width: 100%;
+    height: 300px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .swiper-slide {
+    background-size: cover;
+    background-position: center;
+  }
+
+  .mySwiper2 {
+    height: 60%;
+    width: 80%;
+  }
+
+  .mySwiper {
+    height: 20%;
+    box-sizing: border-box;
+    padding: 10px 0;
+  }
+
+  .mySwiper .swiper-slide {
+    width: 25%;
+    height: 100%;
+    opacity: 0.4;
+  }
+
+  .mySwiper .swiper-slide-thumb-active {
+    opacity: 1;
+  }
+
+  .swiper-slide .slider-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+</style>
+{%endblock%}
+{%block 'body'%}
+
+{%include 'user/header.html'%}
+<section class="py-5 " style="height: min-content;">
+  <div class="container">
+    <div class="row ">
+      <aside class="col-lg-6" style="height: min-content;">   
+
+        <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <img src="/media/{{orderItem.product.image}}" />
+            </div>
+           
+          </div>
+          
+        </div>
+        
+      </aside>
+      <main class="col-lg-6" style="height: min-content;">
+        <div class="col-12 d-flex justify-content-end">
+          <a href="/user/order/{{orderItem.orders.all.0.id}}/invoice" class="btn btn-success ">download</a>
+        {%if orderItem.status != '-1' %}
+          
+        <a href="/user/order/{{orderItem.id}}/cancel"   class="btn btn-danger d-block ms-3" style="width: 150px;">cancel order</a>
+        {%endif%}</div>
+        <div class="ps-lg-3">
+            <h5 class="card-title" ><a href="/user/product/{{orderItem.product.id}}">{{orderItem.product.title}}</a></h5>
+            <p class="card-text"><b>price:</b>₹{{orderItem.product.price}}</p>
+            <p class="card-text"><b>quantity:</b>{{orderItem.quantity}}</p>
+            {%load user_templates_filter%}
+            <p class="card-text"><b>total price:</b>₹{{orderItem.total_price}}</p>
+            <p class="card-text"><b>order option:</b>{{orderItem.orders.all.0.payment_method}}</p>
+            <p class="card-text"><b>order on:</b>{{order.ordered_datetime}}</p>
+            <p class="card-text"><b>receive on:</b>{{orderItem.receive_datetime}}</p>
+          
+          
+          </div>
+
+          
+
+          
+          <div class="row">
+            <dt class="col-3">Gender</dt>
+            <dd class="col-9">{{orderItem.product.gender}}</dd>
+
+            <dt class="col-3">Category</dt>
+            <dd class="col-9">{{orderItem.product.category.name}}</dd>
+
+
+            <dt class="col-3">Brand</dt>
+            <dd class="col-9">{{orderItem.product.brand}}</dd>
+          </div>
+
+          <hr />
+
+          
+            <!-- col.// -->
+            <div class="col-md-4 col-6 mb-3">
+                
+                <div class="d-flex justify-content-between align-items-center " style="width: 500px;height: 4px;background-image: linear-gradient(to right, green {%if orderItem.status == '-1'%}100%{%else%} {% getprogress orderItem.status %}% {%endif%} ,gray 1%);">
+                    {%if orderItem.status == '-1' %}
+                    {%include 'user/ticked.html' with title='ordered'%}
+                    {%include 'user/ticked.html' with title='cancelled'%}
+                    {%else%}
+                    {%if status_choise.1.0 <= orderItem.status %}
+                    {%include 'user/ticked.html' with title='ordered'%}
+                    {%else%}
+                    {%include 'user/unticked.html' with title='ordered'%}
+                    {%endif%}
+                    {%if status_choise.2.0 <= orderItem.status%}
+                    {%include 'user/ticked.html' with title='packed'%}
+                    {%else%}
+                    {%include 'user/unticked.html' with title='packed'%}
+                    {%endif%}
+                    {%if status_choise.3.0 <= orderItem.status%}
+                    {%include 'user/ticked.html' with title='shipped'%}
+                    {%else%}
+                    {%include 'user/unticked.html' with title='shipped'%}
+                    {%endif%}
+                    {%if status_choise.4.0 <= orderItem.status%}
+                    {%include 'user/ticked.html' with title='out for delivery'%}
+                    {%else%}
+                    {%include 'user/unticked.html' with title='out for delivery'%}
+                    {%endif%}
+                    {%if status_choise.5.0 <= orderItem.status%}
+                    {%include 'user/ticked.html' with title='delivered'%}
+                    {%else%}
+                    {%include 'user/unticked.html' with title='delivered'%}
+                    {%endif%}
+                    {%endif%}
+                </div>
+                
+            </div>
+          </div>
+          
+        </div>
+      </main>
+    </div>
+  </div>
+</section>
+<!-- content -->
+
+<section class="bg-light border-top py-4">
+  <div class="container">
+    <div class="row gx-4">
+      <div class="col-lg-8 mb-4">
+        <div class="border rounded-2 px-3 py-2 bg-white">
+          <!-- Pills navs -->
+          
+          <!-- Pills navs -->
+
+          <!-- Pills content -->
+          <div class="tab-content" id="ex1-content">
+            <div class="tab-pane fade show active" id="ex1-pills-1" role="tabpanel" aria-labelledby="ex1-tab-1">
+
+
+              <table class="table border mt-3 mb-2">
+                <tr>
+                    <th class="py-2">holder:</th>
+                    <td class="py-2">{{order.address.holder_name}}</td>
+                  </tr>
+                  <tr>
+                    <th class="py-2">Phone:</th>
+                    <td class="py-2">{{order.address.phone_number}}</td>
+                  </tr>
+                <tr>
+                  <th class="py-2">address:</th>
+                  <td class="py-2">{{order.address.address}}</td>
+                </tr>
+                <tr>
+                    <th class="py-2">pin code:</th>
+                    <td class="py-2">{{order.address.pin_code}}</td>
+                  </tr>
+                
+              </table>
+            </div>
+
+          </div>
+          <!-- Pills content -->
+        </div>
+        <div>
+
+        </div>
+        
+      </div>
+      
+    </div>
+  </div>
+
+</section>
+
+{%endblock%}
+{%block 'script'%}
+<script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
+    <script src="{%static 'js/search.js'%}"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+  var swiper = new Swiper(".mySwiper", {
+    loop: true,
+    spaceBetween: 10,
+    slidesPerView: 4,
+    freeMode: true,
+    watchSlidesProgress: true,
+  });
+  var swiper2 = new Swiper(".mySwiper2", {
+    loop: true,
+    spaceBetween: 10,
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    thumbs: {
+      swiper: swiper,
+    },
+  });
+</script>
+<script type="text/javascript">
+ jQuery(document).ready(function(){
+    // This button will increment the value
+    $('[data-quantity="plus"]').click(function(e){
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        fieldName = $(this).attr('data-field');
+        // Get its current value
+        var currentVal = parseInt($('input[name='+fieldName+']').val());
+        // If is not undefined
+        if (!isNaN(currentVal)) {
+            // Increment
+            $('input[name='+fieldName+']').val(currentVal + 1);
+        } else {
+            // Otherwise put a 0 there
+            $('input[name='+fieldName+']').val(0);
+        }
+    });
+    // This button will decrement the value till 0
+    $('[data-quantity="minus"]').click(function(e) {
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        fieldName = $(this).attr('data-field');
+        // Get its current value
+        var currentVal = parseInt($('input[name='+fieldName+']').val());
+        // If it isn't undefined or its greater than 0
+        if (!isNaN(currentVal) && currentVal > 1) {
+            // Decrement one
+            $('input[name='+fieldName+']').val(currentVal - 1);
+        } else {
+            // Otherwise put a 0 there
+            $('input[name='+fieldName+']').val(1);
+        }
+    });
+});
+
+function cancelOrder(id){
+  $.ajax({
+           url: "/user/order/"+id+"/cancel",
+           success: function(data) {
+            location.reload()
+               // show response from the php script.
+           }});
+    }
+
+</script><script>
+      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+      
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  
+  return new bootstrap.Tooltip(tooltipTriggerEl,{placement: 'bottom',trigger: 'manual'}).show()
+})
+</script>
+{%endblock%}
+{%block 'extra'%}
+{%include 'user/side-draw.html'%}
+{%endblock%}

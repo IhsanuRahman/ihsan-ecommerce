@@ -1,0 +1,32 @@
+{%extends 'base.html' %}
+{%block 'title' %}
+cancel order
+{%endblock%}
+{%block 'head'%}
+{%load static%}
+
+
+<link rel="stylesheet" href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" />
+    
+{%endblock%}
+{%block 'body'%}
+
+    {%include 'user/header.html'%}
+    <div class="d-flex justify-content-between m-5">
+        <h3> cancel</h3>
+        </div>
+        <div class=" m-5  d-flex justify-content-center">
+            <form method="post" class="col-8">
+            {%csrf_token%}
+        <p>are you going to cancel the order</p>
+        {{form}}
+        <button type="submit" class="btn btn-dark m-3">submit</button>
+    </form>
+      </div>
+<script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
+    <script src="{%static 'js/search.js'%}"></script>
+{%endblock%}
+
+{%block 'extra'%}
+{%include 'user/side-draw.html'%}
+{%endblock%}

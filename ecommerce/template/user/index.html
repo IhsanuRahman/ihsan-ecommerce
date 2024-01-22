@@ -1,0 +1,260 @@
+{%extends 'base.html' %}
+{%block 'title' %}
+home
+{%endblock%}
+{%block 'head'%}
+{%load static%}
+<link rel="stylesheet" type="text/css" href="{%static 'css/bootstrap.min.css'%}">
+<link rel="stylesheet" type="text/css" href="{%static 'style.css'%}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Lato:wght@300;400;700&display=swap"
+  rel="stylesheet">
+<script src="{%static 'js/modernizr.js'%}"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" />
+
+{%endblock%}
+{%block 'body'%}
+{%include 'user/header.html'%}
+<section id="billboard" class="position-relative overflow-hidden bg-light-blue" style="z-index: 1;">
+  <div class="swiper main-swiper">
+    <div class="swiper-wrapper">
+      {%for item in banner_products%}
+      <div class="swiper-slide banner">
+        <div class="container">
+          <div class="row d-flex align-items-center justify-content-between">
+            <div class="col-md-6 ">
+              <div class="banner-content ms-5">
+                <h1 class="display-2 text-uppercase text-dark pb-5">Your Products Are Great.</h1>
+                <a href="user/category/{{item.1.id}}"
+                  class="btn btn-medium btn-dark text-uppercase  ms-5 btn-rounded-none">Shop Product</a>
+              </div>
+            </div>
+            <div class="col-md-5 ">
+              <div class="image-holder">
+
+                <img class="banner-image"  src="/media/{{item.0.image}}">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {%endfor%}
+    </div>
+  </div>
+  <div class="swiper-icon swiper-arrow swiper-arrow-prev" style="cursor: w-resize;">
+    <svg class="chevron-left">
+      <svg xmlns="http://www.w3.org/2000/svg" id="chevron-left" viewBox="0 0 16 16">
+        <path fill-rule="evenodd"
+          d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+      </svg>
+    </svg>
+  </div>
+  <div class="swiper-icon swiper-arrow swiper-arrow-next" style="cursor: e-resize;">
+    <svg class="chevron-right">
+      <SVG xmlns="http://www.w3.org/2000/svg" id="chevron-right" viewBox="0 0 16 16">
+        <path fill-rule="evenodd"
+          d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+      </SVG>
+    </svg>
+  </div>
+
+</section>
+
+<section id="company-services" class="padding-large">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-md-6 pb-3">
+        <div class="icon-box d-flex">
+          <div class="icon-box-icon pe-3 pb-3">
+            <svg class="cart-outline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+              <path
+                d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+            </svg>
+          </div>
+          <div class="icon-box-content">
+            <h3 class="card-title text-uppercase text-dark">Free delivery</h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 pb-3">
+        <div class="icon-box d-flex">
+          <div class="icon-box-icon pe-3 pb-3">
+            <svg class="quality" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+
+              <path
+                d="M9.669.864 8 0 6.331.864l-1.858.282-.842 1.68-1.337 1.32L2.6 6l-.306 1.854 1.337 1.32.842 1.68 1.858.282L8 12l1.669-.864 1.858-.282.842-1.68 1.337-1.32L13.4 6l.306-1.854-1.337-1.32-.842-1.68L9.669.864zm1.196 1.193.684 1.365 1.086 1.072L12.387 6l.248 1.506-1.086 1.072-.684 1.365-1.51.229L8 10.874l-1.355-.702-1.51-.229-.684-1.365-1.086-1.072L3.614 6l-.25-1.506 1.087-1.072.684-1.365 1.51-.229L8 1.126l1.356.702 1.509.229z" />
+              <path d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1 4 11.794z" />
+            </svg>
+          </div>
+          <div class="icon-box-content">
+            <h3 class="card-title text-uppercase text-dark">Quality guarantee</h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 pb-3">
+        <div class="icon-box d-flex">
+          <div class="icon-box-icon pe-3 pb-3">
+            <svg class="price-tag" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+
+              <path d="M6 4.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-1 0a.5.5 0 1 0-1 0 .5.5 0 0 0 1 0z" />
+              <path
+                d="M2 1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 1 6.586V2a1 1 0 0 1 1-1zm0 5.586 7 7L13.586 9l-7-7H2v4.586z" />
+
+            </svg>
+          </div>
+          <div class="icon-box-content">
+            <h3 class="card-title text-uppercase text-dark">Daily offers</h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 pb-3">
+        <div class="icon-box d-flex">
+          <div class="icon-box-icon pe-3 pb-3">
+            <svg class="shield-plus" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+              <path
+                d="M5.338 1.59a61.44 61.44 0 0 0-2.837.856.481.481 0 0 0-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.725 10.725 0 0 0 2.287 2.233c.346.244.652.42.893.533.12.057.218.095.293.118a.55.55 0 0 0 .101.025.615.615 0 0 0 .1-.025c.076-.023.174-.061.294-.118.24-.113.547-.29.893-.533a10.726 10.726 0 0 0 2.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 0 0-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524zM5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.775 11.775 0 0 1-2.517 2.453 7.159 7.159 0 0 1-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7.158 7.158 0 0 1-1.048-.625 11.777 11.777 0 0 1-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 0 1 2.185 1.43 62.456 62.456 0 0 1 5.072.56z" />
+              <path
+                d="M8 4.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V9a.5.5 0 0 1-1 0V7.5H6a.5.5 0 0 1 0-1h1.5V5a.5.5 0 0 1 .5-.5z" />
+
+            </svg>
+          </div>
+          <div class="icon-box-content">
+            <h3 class="card-title text-uppercase text-dark">100% secure payment</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- <section class="pb-5 col-10 ms-auto me-auto d-flex  justify-content-end">
+    <button class="btn btn-dark ">view all products</button>
+
+    </section> -->
+
+
+{%for category in categories%}
+
+<section id="{{category.name}}" class="product-store position-relative padding-large no-padding-top">
+  <div class="container">
+    <div class="row">
+      <div class="display-header d-flex justify-content-between pb-3">
+        <h2 class="display-7 text-dark text-uppercase">{{category.name}}</h2>
+        <div class="btn-right">
+          <a href="user/category/{{category.id}}" class="btn btn-medium btn-normal text-uppercase">Go to Shop</a>
+        </div>
+      </div>
+      <div class="swiper product-swiper">
+        <div class="swiper-wrapper">
+          {%for product in category.products.all%}
+          <a href="/user/product/{{product.id}}">
+            <div class="swiper-slide">
+              <div class="product-card position-relative">
+                <div class="image-holder" style="height: 100%;">
+                  <img src="/media/{{product.image}}" alt="product-item1" class="img-fluid"
+                    style="width: 100%;height: 400px;" loading="lazy">
+
+                </div>
+
+                <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
+                  <h3 class="card-title text-uppercase">
+                    <a href="/user/product/{{product.id}}">{{product.title}}</a>
+                  </h3>
+                  {%if product.offer != 0 or product.category.offer != 0%}
+                  {%load user_templates_filter%}
+                  <span class="item-price text-primary">₹{{product.get_offered_price}}</span>
+                  <span class="item-price "><s>₹{{product.price}}</s></span>&nbsp;&nbsp;
+                  <span class="item-price text-success">{{product.offer|add:product.category.offer}}% off</span>
+                  {%else%}
+                  <span class="item-price text-primary">₹{{product.price}}</span>
+                  {%endif%}
+
+                </div>
+              </div>
+            </div>
+          </a>
+          {%endfor%}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="swiper-pagination position-absolute text-center"></div>
+</section>
+{%endfor%}
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered rounded-3">
+    <div class="modal-content ">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">browse catogery</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          
+          <div class="accordion" id="accordionExample">
+            {%for catogery in categories%}
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="heading{{catogery.id}}">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapse{{catogery.id}}" aria-expanded="false"
+                  aria-controls="#collapse{{catogery.id}}">
+                  {{catogery.name}}
+                </button>
+              </h2>
+              <div id="collapse{{catogery.id}}" class="accordion-collapse collapse "
+                aria-labelledby="heading{{catogery.id}}" data-bs-parent="#accordionExample">
+                <div class="accordion-body" style="overflow-y: scroll; max-height: 200px;">
+                  <div class="list-group">
+                    <a href="user/category/{{catogery.id}}" class="list-group-item list-group-item-action">All in
+                      {{catogery.name}}</a>
+                    {%for i in sub_categories%}
+                    {%if i.parent_catogery.name == catogery.name%}
+                    <a href="user/sub-category/{{i.id}}" class="list-group-item list-group-item-action">{{i.name}}</a>
+                    {%endif%}
+                    {%endfor%}
+                  </div>
+                </div>
+              </div>
+            </div>
+            {%endfor%}
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-info" onclick="window.location='/user/products'">view all</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div class="container" style="height: 100px;">
+  <footer class="py-3 my-4">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      <li class="nav-item"><a href="/" class="nav-link px-2 text-muted">Home</a></li>
+      <li class="nav-item"><a href="/user/products" class="nav-link px-2 text-muted">All Products</a></li>
+      <li class="nav-item"><a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" class="nav-link px-2 text-muted">Browse Catogery</a></li>
+      <li class="nav-item"><a href="mailto://ihsanofficial.webservice@gmail.com" class="nav-link px-2 text-muted">FAQs</a></li>
+      
+    </ul>
+    <p class="text-center text-muted">&copy; 2024 Ihsan, Inc</p>
+  </footer>
+</div>
+
+<script src="{%static 'js/jquery-1.11.0.min.js'%}"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+
+<script type="text/javascript" src="{%static 'js/plugins.js'%}"></script>
+<script type="text/javascript" src="{%static 'js/script.js'%}"></script>
+
+<script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
+<script src="{%static 'js/search.js'%}"></script>
+{%endblock%}
+
+{%block 'extra'%}
+{%include 'user/side-draw.html'%}
+{%endblock%}

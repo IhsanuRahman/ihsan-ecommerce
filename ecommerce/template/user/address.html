@@ -1,0 +1,48 @@
+{%extends 'base.html' %}
+{%block 'title' %}
+My address
+{%endblock%}
+{%block 'head'%}
+{%load static%}
+
+
+<link rel="stylesheet" href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" />
+    
+{%endblock%}
+{%block 'body'%}
+
+    {%include 'user/header.html'%}
+    <div class="d-flex justify-content-between m-5" >
+        <h3> address</h3>
+    <a href="/user/address/add" class="btn btn-dark align-self-end" >+ add address</a></div>
+    <div class="list-group m-5"style="min-height: 50%;">
+      {%for adrs in address%}
+        <a href="/user/address/{{adrs.id}}/edit" class="list-group-item list-group-item-action " aria-current="true">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{adrs.holder_name}}</h5>
+            <small></small>
+          </div>
+          <p class="mb-1">{{adrs.address}}</p>
+          <small>{{adrs.phone_number}}</small>
+        </a>
+        {%endfor%}
+      </div>
+      <div class="container" style="height: 100px;">
+  <footer class="py-3 my-4">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      <li class="nav-item"><a href="/" class="nav-link px-2 text-muted">Home</a></li>
+      <li class="nav-item"><a href="/user/products" class="nav-link px-2 text-muted">All Products</a></li>
+      
+      <li class="nav-item"><a href="mailto://ihsanofficial.webservice@gmail.com" class="nav-link px-2 text-muted">FAQs</a></li>
+      
+    </ul>
+    <p class="text-center text-muted">&copy; 2024 Ihsan, Inc</p>
+  </footer>
+</div>
+<script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
+    <script src="{%static 'js/search.js'%}"></script>
+{%endblock%}
+
+{%block 'extra'%}
+{%include 'user/side-draw.html'%}
+{%endblock%}

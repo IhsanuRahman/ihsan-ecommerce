@@ -1,0 +1,32 @@
+{%extends 'base.html' %}
+{%block 'title' %}
+Profile
+{%endblock%}
+{%block 'head'%}
+{%load static%}
+
+
+<link rel="stylesheet" href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" />
+    
+{%endblock%}
+{%block 'body'%}
+
+    {%include 'user/header.html'%}
+    <div class="d-flex justify-content-between m-5">
+        <h3> profile</h3>
+        <a href="/user/profile/change-password" class="btn btn-warning">change password</a>
+    </div>
+    <div class="container">
+        <form action="" method="post">
+            {%csrf_token%}
+            {{form}}
+            <input class="btn btn-dark m-3" type="submit" value="save">
+        </form>
+    </div>
+<script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
+    <script src="{%static 'js/search.js'%}"></script>
+{%endblock%}
+
+{%block 'extra'%}
+{%include 'user/side-draw.html'%}
+{%endblock%}

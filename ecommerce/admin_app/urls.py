@@ -1,0 +1,35 @@
+from django.urls import path
+from . import views
+urlpatterns=[
+    path('',views.home),
+    path('products',views.products),
+    path('product/add',views.add_product),
+    path('product/<id>',views.product_page),
+    # path('product/<id>/save',views.product_page_save),
+    path('product/<id>/delete',views.product_delete),
+    path('product/<id>/recover',views.product_recover),
+    path('product/image/<id>/delete',views.delete_image),
+
+    path('users/',views.users_page),
+    path('user/<id>',views.user_view),
+    path('user/<id>/change_password',views.user_change_password),
+    path('user/<id>/blockmanage',views.user_block_manage),
+    path('categories/',views.categories_list),
+    path('category/add',views.category_add),
+    path('category/<id>',views.category_page),
+    path('category/<id>/delete',views.category_delete),
+    path('category/<id>/recover',views.category_recover),
+    path('sub-categories/',views.sub_categories_list),
+    path('sub-category/add',views.sub_category_add),
+    path('sub-category/<id>',views.sub_category_page),
+    path('sub-category/<id>/delete',views.sub_category_delete),
+    path('sub-category/<id>/recover',views.sub_category_recover),
+    path('orders',views.orders),
+    path('coupons',views.coupons),
+    path('coupon/add',views.add_coupon),
+    path('coupon/<id>',views.coupon_detials),
+    path('order/<id>',views.order_detials),
+    path('order/item/<id>',views.order_item),
+    path('login',views.admin_login),
+    path('logout',views.admin_logout)
+]

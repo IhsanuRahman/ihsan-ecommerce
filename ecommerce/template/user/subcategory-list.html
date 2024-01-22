@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- molla/category-list.html  22 Nov 2019 10:02:52 GMT -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Products</title>
+    <meta name="keywords" content="HTML5 Template">
+    <meta name="description" content="Molla - Bootstrap eCommerce Template">
+    <meta name="author" content="p-themes">
+    <!-- Favicon -->
+
+
+    <meta name="msapplication-TileColor" content="#cc9966">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Plugins CSS File -->
+    {% load bootstrap5 %}
+    
+    {% bootstrap_css %}
+    {%load static%}
+    <link rel="stylesheet" href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" />
+    
+    <link rel="stylesheet" href="{% static 'cart/assets/css/style.css' %}">
+    <!-- Main CSS File -->
+    
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="{%static 'Molla/assets/css/style.css'%}">
+    <link rel="stylesheet" href="{%static 'Molla/assets/css/plugins/owl-carousel/owl.carousel.css'%}">
+    <link rel="stylesheet" href="{%static 'Molla/assets/css/plugins/magnific-popup/magnific-popup.css'%}">
+    <link rel="stylesheet" href="{%static 'Molla/assets/css/plugins/nouislider/nouislider.css'%}">
+
+</head>
+
+<body>
+
+    <div class="page-wrapper">
+        {%include 'user/header.html'%}
+
+        <main class="main">
+            <div class="page-content mt-3 ">
+                <div class="container ">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <div class="toolbox">
+
+
+                                <div class="toolbox-right">
+                                    <div class="toolbox-sort">
+
+                                        <label for="sortby">Sort by:</label>
+                                        <div class="select-custom">
+                                            <form method="POST" name="filter_form" onchange="submitData()"
+                                                enctype="multipart/form-data" action="" id="sort-form">
+                                                {%csrf_token%}
+                                                {%for form in sortform%}
+                                                {{form}}
+                                                {%endfor%}
+                                            </form>
+                                        </div>
+                                    </div><!-- End .toolbox-sort -->
+
+                                </div><!-- End .toolbox-right -->
+                            </div><!-- End .toolbox -->
+                            <div class="products mb-3">
+                                {%for product in products%}
+                                <div class="product product-list" style="height: 300px;">
+                                    <div class="row">
+                                        <div class="col-6 col-lg-3">
+                                            <figure class="product-media">
+                                                <a href="/user/product/{{product.id}}">
+                                                    <img src="/media/{{product.image}}" alt="Product image"
+                                                        class="product-image" height="300px">
+                                                </a>
+                                            </figure><!-- End .product-media -->
+                                        </div><!-- End .col-sm-6 col-lg-3 -->
+
+                                        <div class="col-6 col-lg-3 order-lg-last">
+                                            <!-- End .product-list-action -->
+                                        </div><!-- End .col-sm-6 col-lg-3 -->
+
+                                        <div class="col-lg-6">
+                                            <div class="product-body product-action-inner">
+
+                                                <div class="product-cat">
+                                                    <a href="#">{{product.sub_category.first.name}}</a>
+                                                </div><!-- End .product-cat -->
+                                                <h3 class="product-title"><a
+                                                        href="/user/product/{{product.id}}">{{product.title}}</a></h3>
+                                                <!-- End .product-title -->
+
+                                                <div class="product-content">
+                                                    <p>{{product.description}} </p>
+                                                </div><!-- End .product-content -->
+
+
+                                                <div class="product-list-action">
+                                                    <div class="product-price">
+                                                        {%if product.offer != 0 or product.category.offer != 0 %}
+                                                        {%load user_templates_filter%}
+                                                        ₹{{product.get_offered_price}} <s>₹{{product.price}}</s>&nbsp; <p class="text-success">{{product.offer|add:product.category.offer}}% offer</p>
+                                                        {%else%} 
+                                                        ₹{{product.price}}
+                                                        {%endif%}
+                                                    </div><!-- End .product-price -->
+
+
+                                                </div>
+                                            </div><!-- End .product-body -->
+                                        </div><!-- End .col-lg-6 -->
+                                    </div><!-- End .row -->
+                                </div><!-- End .product -->
+
+                                {%endfor%}
+                            </div><!-- End .products -->
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination">
+                                    {%if page_number is 1%}
+                                    <li class="page-item disabled">
+                                    {%else%}
+                                    <li class="page-item ">
+                                    {%endif%}
+                                        <a class="page-link page-link-prev"  aria-label="Previous" tabindex="-1" onclick="pageSubmit(Number('{{page_number}}')-1)"
+                                            aria-disabled="true">
+                                            <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
+                                        </a>
+                                    </li>
+                                    {%for i in total_pages%}
+                                    {%if i is page_number%}
+                                    <li class="page-item active" aria-current="page">
+                                    {%else%}
+                                    <li class="page-item" aria-current="page">
+                                    {%endif%}
+                                        <a class="page-link"
+                                            onclick="pageSubmit('{{i}}')">{{i}}
+                                        </a>
+                                    </li>
+                                    {%endfor%}
+                                    <li class="page-item-total">of {{total_pages|last}}</li>
+                                    {%if page_number is total_pages|last%}
+                                    <li class="page-item disabled">
+                                    {%else%}
+                                    <li class="page-item ">
+                                    {%endif%}
+                                        <a class="page-link page-link-next" onclick="pageSubmit(Number('{{page_number}}')+1)" aria-label="Next">
+                                            Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+
+                        </div><!-- End .col-lg-9 -->
+                        <aside class="col-lg-3 order-lg-first ">
+                            <div class="collapse card d-lg-block mb-5" id="navbarSupportedContent">
+                                <div class="accordion" id="accordionPanelsStayOpenExample">
+                                    <h6  >Filter</h6>
+                                    
+                                    <div class="accordion-item">
+
+                                        <h2 class="accordion-header" id="heading-brand">
+                                            <button class="accordion-button text-dark bg-light" type="button"
+                                                 data-bs-target="#panelsStayOpen-collapse-brand" 
+                                                 aria-controls="#panelsStayOpen-collapse-brand" id="accordionPanels-brand"
+                                                 data-bs-toggle="collapse" aria-expanded="false">
+                                                brand
+                                            </button>
+                                        </h2>
+                                        <div id="panelsStayOpen-collapse-brand" class="accordion-collapse collapse show"
+                                            aria-labelledby="heading-brand" data-bs-parent="#accordionPanels-brand">
+                                            <div class="accordion-body">
+
+                                                <div>
+                                                    <form action="" method="post" id="brand-filter"
+                                                        enctype="multipart/form-data" name="brand_filter"
+                                                        onchange="submitData()">
+                                                        
+                                                        <div class="form-check">
+                                                            {{brand_filter.as_ul}}
+                                                        </div>
+                                                        
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                        </aside>
+                    </div><!-- End .row -->
+                </div><!-- End .container -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+
+        <div class="container" style="height: 100px;">
+            <footer class="py-3 my-4">
+              <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                <li class="nav-item"><a href="/" class="nav-link px-2 text-muted">Home</a></li>
+                <li class="nav-item"><a href="/user/products" class="nav-link px-2 text-muted">All Products</a></li>
+                
+                <li class="nav-item"><a href="mailto://ihsanofficial.webservice@gmail.com" class="nav-link px-2 text-muted">FAQs</a></li>
+                
+              </ul>
+              <p class="text-center text-muted">&copy; 2024 Ihsan, Inc</p>
+            </footer>
+          </div>
+    </div><!-- End .page-wrapper -->
+
+    <!-- Sign in / Register Modal -->
+
+
+    <!-- Plugins JS File -->
+    <script src="{%static 'Molla/assets/js/jquery.min.js'%}"></script>
+    <script src="{%static 'Molla/assets/js/bootstrap.bundle.min.js'%}"></script>
+    {%bootstrap_javascript%}
+    <script src="{%static 'Molla/assets/js/jquery.hoverIntent.min.js'%}"></script>
+    <script src="{%static 'Molla/assets/js/jquery.waypoints.min.js'%}"></script>
+    <script src="{%static 'Molla/assets/js/superfish.min.js'%}"></script>
+    <script src="{%static 'Molla/assets/js/owl.carousel.min.js'%}"></script>
+    <script src="{%static 'Molla/assets/js/wNumb.js'%}"></script>
+    <script src="{%static 'Molla/assets/js/bootstrap-input-spinner.js'%}"></script>
+    <script src="{%static 'Molla/assets/js/jquery.magnific-popup.min.js'%}"></script>
+    <script src="{%static 'Molla/assets/js/nouislider.min.js'%}"></script>
+    <!-- Main JS File -->
+    <script src="{%static 'Molla/assets/js/main.js'%}"></script>
+    <script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
+    <script src="{%static 'js/search.js'%}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+        function submitData(){
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "", true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            var sortData= new FormData(document.querySelector('#sort-form'))
+            var brandData= new FormData(document.querySelector('#brand-filter'))
+            var data={}
+            for (var pair of sortData.entries()) {
+                data[pair[0]]=pair[1]
+            }
+            for (var pair of brandData.entries()) {
+                data[pair[0]]=pair[1]   
+            }
+            
+            
+            $.ajax({
+           type: "POST",
+           url: "",
+           data: data,
+           success: function(data) {
+            document.open();
+            document.write(data);
+            document.close();
+               // show response from the php script.
+           }
+    });
+        }
+        function pageSubmit(n){
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "", true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            var sortData= new FormData(document.querySelector('#sort-form'))
+            var brandData= new FormData(document.querySelector('#brand-filter'))
+            var data={}
+            for (var pair of sortData.entries()) {
+                data[pair[0]]=pair[1]
+            }
+            
+            for (var pair of brandData.entries()) {
+                data[pair[0]]=pair[1]   
+            }
+            if (n>'{{total_pages|last}}'){
+                n=1
+            }
+            data['page']=n
+            
+            
+            $.ajax({
+           type: "POST",
+           url: "",
+           data: data, // changed
+           success: function(data) {
+            document.open();
+            document.write(data);
+            document.close();
+               // show response from the php script.
+           }
+    });
+        }
+
+    </script>
+</body>
+
+
+<!-- molla/category-list.html  22 Nov 2019 10:02:52 GMT -->
+
+</html>

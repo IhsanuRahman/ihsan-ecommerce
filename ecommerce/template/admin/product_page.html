@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin</title>
+  {%load static%}
+  <link rel="stylesheet" href="{%static 'admin/assets/css/styles.min.css'%}" />
+</head>
+
+<body>
+  <!--  Body Wrapper -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6"  data-header-position="fixed">
+    <!-- Sidebar Start -->
+    
+    <!--  Sidebar End -->
+    <!--  Main wrapper -->
+    <div class="col-lg-12 ms-3 " >
+      <!--  Header Start -->
+      <header class="app-header">
+        <nav class="navbar navbar-expand-lg navbar-light">
+          <ul class="navbar-nav">
+            
+            <li class="nav-item">
+               
+                <a href="/admin" class="text-nowrap logo-img nav-link nav-icon-hove">
+                    <h1 class="ms-3">Ihsan</h1>
+                  </a>
+              
+            </li>
+          </ul>
+          <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+            <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+              
+              
+            </ul>
+          </div>
+        </nav>  </div>
+      </nav>
+    </header>
+    <!--  Header End -->
+
+    <div class="container-fluid ">
+     
+      <div class="row"> {% if messages %}
+
+  {% for message in messages %}<div class="messages alert alert-{{message.tags}} alert-dismissible fade show">
+      <span{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}, <button type="button"
+              class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></span>
+  </div> {% endfor %}
+
+  {% endif %}
+          <div class="card " style="margin-top: 100px;">
+            
+      </header>
+      <!--  Header End -->
+
+      <div class="container-fluid ">
+        
+        <div class="row">
+            
+            <div class="card mt-5">
+              {%if is_delete%}
+                <a href="/admin/product/{{id}}/recover" class=" btn btn-danger ms-auto me-2">recover product</a>
+              {%else%}
+              <a href="/admin/product/{{id}}/delete" class=" btn btn-danger ms-auto me-2">delete product</a>
+              {%endif%}
+                <div class="card-body">
+                  <form method="post" enctype="multipart/form-data">
+                    <!-- <div class="mb-3">
+                      <label for="exampleInputEmail1" class="form-label">Email address</label>
+                      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                      <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                    </div>
+                    <div class="mb-3">
+                      <label for="exampleInputPassword1" class="form-label">Password</label>
+                      <input type="password" class="form-control" id="exampleInputPassword1">
+                    </div>
+                    <div class="mb-3 form-check">
+                      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                    </div> -->
+                    {%csrf_token%}<div class="row d-flex align-items-center">
+                      <div class="col-auto">
+                    <img src="/media/{{main_image}}" height="400px" width="250px">
+                    </div>
+                    {%for i in additional_images%}
+                        <div class="col-auto">
+                        <img src="/media/{{i.image}}" height="200px" width="150px" class="m-3 mt-auto "><br>
+                        <a href="/admin/product/image/{{i.id}}/delete" class="btn btn-danger"> delete image</a>
+                        </div>
+                    {%endfor%}</div><br>
+                    {{form}}
+                    
+                    <button type="submit" class="btn btn-primary">Save</button>
+                  </form>
+                </div>
+              </div>
+    </div>
+  </div>
+  <script src="{%static 'admin/assets/libs/jquery/dist/jquery.min.js'%}"></script>
+  <script src="{%static 'admin/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js'%}"></script>
+  <script src="{%static 'admin/assets/js/sidebarmenu.js'%}"></script>
+  <script src="{%static 'admin/assets/js/app.min.js'%}"></script>
+  <script src="{%static 'admin/assets/libs/apexcharts/dist/apexcharts.min.js'%}"></script>
+  <script src="{%static 'admin/assets/libs/simplebar/dist/simplebar.js'%}" ></script>
+  
+  </body>
+
+</html>
