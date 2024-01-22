@@ -1,6 +1,7 @@
 /venv
 /.gitignore
 /ecommerce/media/uploads/additional-images/*
+/ecommerce/media/uploads/additional-images/249.webp
 /ecommerce/media/uploads/title-images/*
 
 /ecommerce/*.log
