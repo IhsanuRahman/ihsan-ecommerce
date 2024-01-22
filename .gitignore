@@ -1,10 +1,4 @@
 venv
-./.gitignore
-ecommerce/media/uploads/additional-images/*.webp
-ecommerce/media/uploads/additional-images/*.PNG
-!ecommerce/media/uploads/additional-images
-ecommerce/media/uploads/title-images/*
-!ecommerce/media/uploads/title-images
 ecommerce/*.log
 ecommerce/*.pot
 ecommerce/*.pyc
