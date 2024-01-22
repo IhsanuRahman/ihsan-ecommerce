@@ -1,6 +1,6 @@
 /.venv
-ecommerce/media/uploads/additional-images/*.py
-ecommerce/media/uploads/title-images/*.py
+ecommerce/media/uploads/additional-images/*.webp
+ecommerce/media/uploads/title-images/*.webp
 
 ecommerce/*.log
 ecommerce/*.pot
