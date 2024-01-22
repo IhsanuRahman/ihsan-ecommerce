@@ -1,7 +1,7 @@
 /venv
 /.gitignore
-/ecommerce/media
-/ecommerce/media
+/ecommerce/media/uploads/additional-images/*
+/ecommerce/media/uploads/title-images/*
 
 /ecommerce/*.log
 /ecommerce/*.pot
