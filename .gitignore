@@ -1,6 +1,0 @@
-venv
-ecommerce/*.log
-ecommerce/*.pot
-ecommerce/*.pyc
-ecommerce/__pycache__
-ecommerce/db.sqlite3
