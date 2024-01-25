@@ -1,23 +1,18 @@
 from io import BytesIO
 import os
 from PIL import Image
-from django.http import FileResponse, HttpResponse
 from django.shortcuts import redirect, render
 from django.views.decorators.cache import cache_control
 from django.contrib.auth import login,logout
 from django.contrib.auth.decorators import login_required
 from json import dumps
 from django.core.files.base import ContentFile
-from user_app.forms import RegisterForm
 from user_app.models import AdditionalImage, AdditionalInfo, Coupons, OrderItem, Orders, ProductOptions, Products, SubCategory, UserModel
 from .models import Sales
-from .forms import CategoryAddForm, CouponsForm, LoginForm, OrderForm, ProductsForm, ProductsUpdateForm, SubCategoryAddForm, UserAddForm, UserEditForm,Category
+from .forms import CategoryAddForm, CouponsForm, LoginForm, OrderForm, ProductsForm, ProductsUpdateForm, SubCategoryAddForm, UserEditForm,Category
 from django.contrib.auth.forms import SetPasswordForm
 from django.db.models import Sum
 from django.contrib import messages
-from reportlab.pdfgen import canvas
-from reportlab.graphics.charts.barcharts import BarChart
-from reportlab.graphics.shapes import Drawing
 
 
 def super_user_check(func):
@@ -61,7 +56,9 @@ def home(request):
         salesmoney=[sale[0] for sale in sales.values_list('total_money')]
         data=dumps(list(zip(dates,salesmoney)))
         print(data)
-    max_sale=max(round(max(sales.values_list('total_money'))[0],-2),round(max(sales.values_list('total_money'))[0]))
+    max_sale=0
+    if sales.values_list('total_money'):
+        max_sale=max(round(max(sales.values_list('total_money'))[0],-2),round(max(sales.values_list('total_money'))[0]))
     return render(request,'admin/index.html',{'sales':sales,'sales_dates':sales_dates,'sales_money':sales_money,'max_sale':max_sale,'data':data})
 
 

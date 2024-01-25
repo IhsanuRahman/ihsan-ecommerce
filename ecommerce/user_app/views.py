@@ -1,11 +1,10 @@
 import datetime
-from io import BytesIO
-from django.http import FileResponse, HttpResponse, JsonResponse
+from django.http import  HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from admin_app.models import Sales
 from .forms import AddressForm, BrandFilter, CancelForm, FilterForm, ForgotPasswordForm, LoginForm, PasswordResetForm,RegisterForm,OTPForm, SortForm, UserEditForm,PasswordEditForm as PasswordChangeForm
 from django.contrib.auth import login,logout
-from .models import  Address, Cart, Coupons, OrderItem, Orders, RazorPayUser, WishList,status_choise, Products, SubCategory,UserModel, UserModelOperation,Category, UserTemp
+from .models import  Address, Cart, Coupons, OrderItem, Orders, WishList,status_choise, Products, SubCategory,UserModel, UserModelOperation,Category, UserTemp
 from .utils import otp_verify,otp_generator
 from django.views.decorators.cache import cache_control
 from django.db.models import Q
@@ -268,10 +267,8 @@ def add_address_checkout(request):
         if form.is_valid():
             address=form.save(commit=False)
             address.user=UserModel.objects.get(id=request.user.id)
-            
             if Address.objects.filter(user=address.user,holder_name=address.holder_name,phone_number=address.phone_number,country=address.country,address=address.address,pin_code=address.pin_code,town_or_city=address.town_or_city,state=address.state,district=address.district).exists():
                 form.add_error('__all__','already exists')
-
             else:
                 address.save()
                 messages.add_message(request,messages.INFO,'new address is created')
@@ -289,6 +286,7 @@ def product_detials_page(request,id):
     additional_image=product.additional_images.all()
     similar_products=Products.public.filter((Q(sub_category=product.sub_category)|Q(category=product.category))).distinct()
     return render(request,'user/product_detials.html',{'product':product,'options':options,'additional_info':additional_info,'additional_image':additional_image,'similar_products':similar_products})
+
 
 def search_group(request):
     search = request.GET.get('search')
@@ -315,8 +313,6 @@ def search_group(request):
                 'id': result.pk,
                 'type':"category"
             })
-        
-
     return JsonResponse({
         'status': True,
         'payload': payload
@@ -379,8 +375,6 @@ def cart(request):
                                         if coupon[0].minimum_purchase<=total_price:
                                             total_price-=(coupon[0].offer*total_price)/100
                                             total_price=round(total_price,2)
-                                            
-                                            
                                         else:
                                             messages.add_message(request,messages.WARNING,f'coupon want minimum {coupon[0].minimum_purchase} purchase')
                                             return render(request,'user/cart.html',{'products':products,'total_price':round(total_price,2),'address':address,})
@@ -394,7 +388,6 @@ def cart(request):
             if coupon:
                 orders.coupon=coupon[0]
             orders.save()
-            
             for product in products:
                 print(product.product.get_offered_price()*product.quantity,'price')
                 product_total_price=(product.product.get_offered_price()*product.quantity)
@@ -408,12 +401,10 @@ def cart(request):
                 print(orderItem.total_price,'product to price',product_total_price)
                 orders.order_items.add(orderItem)
                 print(request.POST.get('shipping'))
-                
-
             if request.POST.get('shipping')=='cash-on-delivery':
                 orders.is_conformed=True
                 orders.save()
-                product.delete()
+                products.delete()
                 if coupon:
                     coupon[0].applied_users.add(UserModel.objects.get(id=request.user.pk))
                 sales=Sales.objects.filter(date=orders.ordered_datetime.date()).first()
@@ -445,7 +436,7 @@ def cart(request):
                     user.wallet=round(user.wallet,2)
                     orders.is_conformed=True
                     orders.save()
-                    product.delete()
+                    products.delete()
                     user.save()
                     if coupon:
                         coupon[0].applied_users.add(UserModel.objects.get(id=request.user.pk))

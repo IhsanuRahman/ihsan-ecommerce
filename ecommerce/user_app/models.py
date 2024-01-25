@@ -95,7 +95,7 @@ class Cart(models.Model):
 class Address(models.Model):
     user=models.ForeignKey(UserModel,on_delete=models.CASCADE,null=False)
     holder_name=models.CharField(max_length=20, validators=[MinLengthValidator(4)],null=False)
-    phone_number=models.IntegerField(null=False)
+    phone_number=models.BigIntegerField(null=False)
     country=models.CharField(max_length=25,null=False)
     address=models.TextField(null=False)
     town_or_city=models.CharField(max_length=25,null=False)
@@ -156,11 +156,6 @@ class OrderCancellDetials(models.Model):
     cancelled_on=models.DateTimeField(auto_now=True)
     order=models.ForeignKey(OrderItem,on_delete=models.DO_NOTHING,null=False)
     reason=models.TextField(null=False,validators=[MinLengthValidator(10)])
-
-
-class RazorPayUser(models.Model):
-    user=models.OneToOneField(UserModel,on_delete=models.DO_NOTHING)
-    razorpay_id=models.CharField(max_length=100)
 
 
 class WishList(models.Model):
