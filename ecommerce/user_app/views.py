@@ -1,11 +1,10 @@
 import datetime
-from io import BytesIO
-from django.http import FileResponse, HttpResponse, JsonResponse
+from django.http import  HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from admin_app.models import Sales
 from .forms import AddressForm, BrandFilter, CancelForm, FilterForm, ForgotPasswordForm, LoginForm, PasswordResetForm,RegisterForm,OTPForm, SortForm, UserEditForm,PasswordEditForm as PasswordChangeForm
 from django.contrib.auth import login,logout
-from .models import  Address, Cart, Coupons, OrderItem, Orders, RazorPayUser, WishList,status_choise, Products, SubCategory,UserModel, UserModelOperation,Category, UserTemp
+from .models import  Address, Cart, Coupons, OrderItem, Orders, WishList,status_choise, Products, SubCategory,UserModel, UserModelOperation,Category, UserTemp
 from .utils import otp_verify,otp_generator
 from django.views.decorators.cache import cache_control
 from django.db.models import Q
